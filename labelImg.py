@@ -209,6 +209,9 @@ class MainWindow(QMainWindow, WindowMixin):
         openAnnotation = action(getStr('openAnnotation'), self.openAnnotationDialog,
                                 'Ctrl+Shift+O', 'open', getStr('openAnnotationDetail'))
 
+        # openPrevAnnotation = action(getStr('openPrevXML'), self.loadPrevPascalXML,
+        #                         'r', 'open', getStr('openPrevXMLDetail'))
+
         openNextImg = action(getStr('nextImg'), self.openNextImg,
                              'd', 'next', getStr('nextImgDetail'))
 
@@ -1159,9 +1162,9 @@ class MainWindow(QMainWindow, WindowMixin):
             self.statusBar().showMessage('Please select image first')
             self.statusBar().show()
             return
-
-        path = os.path.dirname(ustr(self.filePath))\
+        path = os.path.dirname(ustr(self.defaultSaveDir))\
             if self.filePath else '.'
+        path = self.defaultSaveDir
         if self.usingPascalVocFormat:
             filters = "Open Annotation XML file (%s)" % ' '.join(['*.xml'])
             filename = ustr(QFileDialog.getOpenFileName(self,'%s - Choose a xml file' % __appname__, path, filters))
@@ -1317,6 +1320,21 @@ class MainWindow(QMainWindow, WindowMixin):
             else:
                 return fullFilePath
         return ''
+
+    def loadPrevPascalXML(self):
+        filename = ''
+
+        currIndex = self.mImgList.index(self.filePath)
+        if currIndex - 1 >= 0:
+            filename = self.mImgList[currIndex - 1]
+        
+        basename = os.path.basename(
+            os.path.splitext(filename)[0]
+        )
+        xmlPath = os.path.join(self.defaultSaveDir, basename) + XML_EXT
+        
+        self.loadPascalXMLByFilename(xmlPath)
+        self.setDirty()
 
     def _saveFile(self, annotationFilePath):
         if annotationFilePath and self.saveLabels(annotationFilePath):
