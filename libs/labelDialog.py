@@ -67,7 +67,8 @@ class LabelDialog(QDialog):
         self.edit.setSelection(0, len(text))
         self.edit.setFocus(Qt.PopupFocusReason)
         if move:
-            self.move(QCursor.pos())
+            #self.move(QCursor.pos())
+            self.move(QPoint(840,480))
         return self.edit.text() if self.exec_() else None
 
     def listItemClick(self, tQListWidgetItem):
