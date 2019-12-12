@@ -209,8 +209,8 @@ class MainWindow(QMainWindow, WindowMixin):
         openAnnotation = action(getStr('openAnnotation'), self.openAnnotationDialog,
                                 'Ctrl+Shift+O', 'open', getStr('openAnnotationDetail'))
 
-        # openPrevAnnotation = action(getStr('openPrevXML'), self.loadPrevPascalXML,
-        #                         'r', 'open', getStr('openPrevXMLDetail'))
+        openPrevAnnotation = action(getStr('openPrevXML'), self.loadPrevPascalXML,
+                                'r', 'open', getStr('openPrevXMLDetail'))
 
         openNextImg = action(getStr('nextImg'), self.openNextImg,
                              'd', 'next', getStr('nextImgDetail'))
@@ -371,7 +371,7 @@ class MainWindow(QMainWindow, WindowMixin):
         self.displayLabelOption.triggered.connect(self.togglePaintLabelsOption)
 
         addActions(self.menus.file,
-                   (open, opendir, changeSavedir, openAnnotation, self.menus.recentFiles, save, save_format, saveAs, close, resetAll, quit))
+                   (open, opendir, changeSavedir, openAnnotation, openPrevAnnotation, self.menus.recentFiles, save, save_format, saveAs, close, resetAll, quit))
         addActions(self.menus.help, (help, showInfo))
         addActions(self.menus.view, (
             self.autoSaving,
@@ -392,7 +392,7 @@ class MainWindow(QMainWindow, WindowMixin):
 
         self.tools = self.toolbar('Tools')
         self.actions.beginner = (
-            open, opendir, changeSavedir, openNextImg, openPrevImg, verify, save, save_format, None, create, copy, delete, None,
+            open, opendir, changeSavedir, openNextImg, openPrevImg, openPrevAnnotation, verify, save, save_format, None, create, copy, delete, None,
             zoomIn, zoom, zoomOut, fitWindow, fitWidth)
 
         self.actions.advanced = (
